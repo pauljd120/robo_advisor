@@ -9,6 +9,38 @@ load_dotenv() # loads environment variables set in a ".env" file, including the 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 #print("API KEY: " + api_key)
 
+
+
+request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=demo"
+response = requests.get(request_url)
+#print(type(response))
+#print(response.status_code)
+#print(response.text)
+
+parsed_response = json.loads(response.text)
+
+
+breakpoint()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
