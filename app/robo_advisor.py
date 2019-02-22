@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import json
 import os
 import requests
+import datetime
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 
@@ -9,6 +10,10 @@ load_dotenv() # loads environment variables set in a ".env" file, including the 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 #print("API KEY: " + api_key)
 
+
+#from your walkthrough video
+def to_usd(my_price):
+    return "${0:,.2f}".format(my_price)
 
 
 request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=demo"
@@ -20,6 +25,8 @@ response = requests.get(request_url)
 parsed_response = json.loads(response.text)
 
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
+
+latest_close = parsed_response["Time Series (Daily)"]["2019-02-20"]["4. close"]
 
 
 
@@ -61,10 +68,12 @@ latest_price_usd = "$100,000.00"
 # TODO: further revise the example outputs below to reflect real information
 print("-----------------")
 print(f"STOCK SYMBOL: {symbol}")
-print(f"RUN AT: ")
+
+current_time = datetime.datetime.now()
+print("RUN AT: " + current_time.strftime("%x") + " " + current_time.strftime("%X") + " " + current_time.strftime("%p"))
 print("-----------------")
 print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed}")
-print(f"LATEST DAILY CLOSING PRICE: {latest_price_usd}")
+print(f"LATEST DAILY CLOSING PRICE: {to_usd(float(latest_close))}")
 print("RECENT HIGH: $101,000.00")
 print("RECENT LOW: $99,000.00")
 print("-----------------")
