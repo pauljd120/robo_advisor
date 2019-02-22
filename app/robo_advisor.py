@@ -19,8 +19,7 @@ response = requests.get(request_url)
 
 parsed_response = json.loads(response.text)
 
-
-breakpoint()
+last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 
 
 
@@ -62,9 +61,9 @@ latest_price_usd = "$100,000.00"
 # TODO: further revise the example outputs below to reflect real information
 print("-----------------")
 print(f"STOCK SYMBOL: {symbol}")
-print("RUN AT: 11:52pm on June 5th, 2018")
+print(f"RUN AT: ")
 print("-----------------")
-print("LATEST DAY OF AVAILABLE DATA: June 4th, 2018")
+print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed}")
 print(f"LATEST DAILY CLOSING PRICE: {latest_price_usd}")
 print("RECENT HIGH: $101,000.00")
 print("RECENT LOW: $99,000.00")
