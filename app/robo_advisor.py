@@ -17,7 +17,9 @@ def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
 
 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=demo"
+symbol = input("Enter the name of a stock: ")
+
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 response = requests.get(request_url)
 #print(type(response))
 #print(response.status_code)
@@ -49,41 +51,6 @@ recent_high = max(high_prices)
 recent_low = min(low_prices)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
-
-# see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
-# TODO: assemble the request url to get daily data for the given stock symbol...
-
-# TODO: use the "requests" package to issue a "GET" request to the specified url, and store the JSON response in a variable...
-
-# TODO: further parse the JSON response...
-
-# TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
-latest_price_usd = "$100,000.00"
-
-#
-# INFO OUTPUTS
-#
-
-# TODO: write response data to a CSV file
-
-# TODO: further revise the example outputs below to reflect real information
 print("-----------------")
 print(f"STOCK SYMBOL: {symbol}")
 
