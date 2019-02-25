@@ -18,12 +18,25 @@ def to_usd(my_price):
 
 symbol = input("Enter the name of a stock: ")
 
-
 while(symbol.isalpha() == 0 or len(symbol) < 3 or len(symbol) > 5):
     symbol = input("Error: Please enter a valid stock name: ")
 
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
+
 response = requests.get(request_url)
+
+
+#Got help from @hiepnguyenon the "Error" in response.text portion of the code for determining when a stock can't be found
+while("Error" in response.text):
+    symbol = input("Error: Stock not found. Please enter another symbol: ")
+
+    while(symbol.isalpha() == 0 or len(symbol) < 3 or len(symbol) > 5):
+        symbol = input("Error: Please enter a valid stock name: ")
+
+    request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
+
+    response = requests.get(request_url)
+
 
 parsed_response = json.loads(response.text)
 
@@ -55,15 +68,31 @@ print("-----------------")
 print(f"STOCK SYMBOL: {symbol}")
 
 current_time = datetime.datetime.now()
-print("RUN AT: " + current_time.strftime("%x") + " " + current_time.strftime("%X") + " " + current_time.strftime("%p"))
+#credit to @ideenak for the help on formatting date and time
+YY = current_time.strftime("%Y")
+MM = current_time.strftime("%B")
+DD = current_time.strftime("%d")
+H = current_time.strftime("%I")
+M = current_time.strftime("%M")
+P = current_time.strftime("%p")
+print("RUN AT: " + H + ":" + M + " " + P + " on " + MM + " " + DD + ", " + YY + " ")
 print("-----------------")
-print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed}")
+print(f"DATA LAST REFRESHED: {last_refreshed}")
 print(f"LATEST DAILY CLOSING PRICE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-----------------")
-print("RECOMMENDATION: Buy!")
-print("RECOMMENDATION REASON: Because the latest closing price is within threshold XYZ etc., etc. and this fits within your risk tolerance etc., etc.")
+
+recommendation = "Do not buy"
+reason = "This stock's closing price is not higher than 20% above it's recent low. The stock does not appear to be trending upwards."
+
+if float(latest_close) > (float(recent_low) * 1.2):
+    recommendation = "Buy"
+    reason = "This stock's closing price is more than 20% above it's recent low. The stock appears to be trending upwards."
+
+
+print("RECOMMENDATION: " + recommendation)
+print("RECOMMENDATION REASON: " + reason)
 print("-----------------")
 
 csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
