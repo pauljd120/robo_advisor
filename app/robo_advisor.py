@@ -16,14 +16,14 @@ api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 def to_usd(my_price):
     return "${0:,.2f}".format(my_price)
 
-
 symbol = input("Enter the name of a stock: ")
+
+
+while(symbol.isalpha() == 0 or len(symbol) < 3 or len(symbol) > 5):
+    symbol = input("Error: Please enter a valid stock name: ")
 
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 response = requests.get(request_url)
-#print(type(response))
-#print(response.status_code)
-#print(response.text)
 
 parsed_response = json.loads(response.text)
 
