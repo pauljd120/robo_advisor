@@ -3,7 +3,7 @@ from robo_advisor import to_usd, get_response
 
 import pytest
 import requests
-import dotenv
+import python-dotenv
 import json
 
 def test_to_usd():
