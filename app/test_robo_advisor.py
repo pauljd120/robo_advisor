@@ -5,6 +5,7 @@ import pytest
 import requests
 from dotenv import load_dotenv
 import json
+import os
 
 def test_to_usd():
     result = to_usd(50)
