@@ -12,6 +12,8 @@ def test_to_usd():
 def test_get_response():
 
     symbol = "MSFT"
+    
+    api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 
     request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 
