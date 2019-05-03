@@ -1,4 +1,4 @@
-m dotenv import load_dotenv
+from dotenv import load_dotenv
 import json
 import os
 import requests
